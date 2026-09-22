@@ -82,23 +82,25 @@ const THEME_COLORS={
   "Spring":"#dceecb",
   "Summer":"#f7e3a7"
 };
-function applyThemeColor(name){
-  const color=THEME_COLORS[name];
-  if(!color) return;
-  requestAnimationFrame(()=>{
-    document.documentElement.style.setProperty("--active-theme-color",color);
-    document.body.dataset.activeTheme=name;
-    document.querySelectorAll(".game-picker button,.pill,.action,.key").forEach(el=>{
-      if(!el.classList.contains("correct")&&!el.classList.contains("present")&&!el.classList.contains("absent")){
-        el.style.backgroundColor=color;
-        el.style.color="#4d4237";
-      }
-    });
-  });
-}
+function themeColor(name){ return THEME_COLORS[name] || "#eee2ce"; }
 
-function picker(theme){const t=THEMES[theme];shell(`<section class="card theme-page" data-active-theme="${name}"><div class="top"><button class="pill" id="back">← Themes</button><h2>${t.icon} ${theme}</h2></div><p>Choose a game:</p><div class="game-picker">${t.words.map((_,i)=>`<button data-i="${i}">${i+1}</button>`).join('')}</div></section>`);document.querySelector('#back').onclick=home;document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>start(theme,+b.dataset.i))}
-function start(theme,index){state={theme,index,answer:clean(THEMES[theme].words[index]),guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};renderGame()}
+function picker(theme){
+  const t=THEMES[theme];
+  const c=themeColor(theme);
+  shell(`<section class="card">
+    <div class="top">
+      <button class="pill" id="back" style="background:${c}">← Themes</button>
+      <h2>${t.icon} ${theme}</h2>
+    </div>
+    <p>Choose a game:</p>
+    <div class="game-picker">
+      ${t.words.map((_,i)=>`<button data-i="${i}" style="background:${c}">${i+1}</button>`).join("")}
+    </div>
+  </section>`);
+  document.querySelector("#back").onclick=home;
+  document.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>start(theme,+b.dataset.i));
+}
+function start(theme,index){document.documentElement.style.setProperty("--active-theme-color",themeColor(theme));document.body.dataset.gameTheme=theme;state={theme,index,answer:clean(THEMES[theme].words[index]),guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};renderGame()}
 function customSetup(){shell(`<section class="card modal"><div class="top"><button class="pill" id="back">← Themes</button><h2>✍️ Teacher Customize</h2></div><p>Type the secret answer. Letters only; spaces and punctuation are ignored during play.</p><input class="field" id="answer" maxlength="12" placeholder="Secret word" autocomplete="off"><p class="hint">Recommended: 3–12 letters. After you press Start, the word will disappear.</p><button class="action" id="go">Start Student Game</button></section>`);document.querySelector('#back').onclick=home;document.querySelector('#go').onclick=()=>{let a=clean(document.querySelector('#answer').value);if(a.length<2)return alert('Please enter at least 2 letters.');state={theme:'Customize',index:0,answer:a,guess:'',row:0,max:6,board:[],status:'playing',custom:true,key:{}};renderGame()}}
 function renderGame(){const len=state.answer.length;let rows='';for(let r=0;r<state.max;r++){let chars=state.board[r]?.letters||(r===state.row?state.guess:'');let res=state.board[r]?.result||[];rows+=`<div class="row" style="grid-template-columns:repeat(${len},minmax(0,58px))">${Array.from({length:len},(_,i)=>`<div class="tile ${res[i]||''}">${chars[i]||''}</div>`).join('')}</div>`}let title=state.custom?'✍️ Custom Wordle':`${THEMES[state.theme].icon} ${state.theme}`;let progress=state.custom?'Teacher-created game':`Game ${state.index+1} of 30`;shell(`<section class="card theme-page" data-active-theme="${name}"><div class="top"><button class="pill" id="back">← ${state.custom?'Themes':'Games'}</button><div><strong>${title}</strong><div class="hint">${progress} • ${len} letters</div></div><button class="pill" id="new">${state.custom?'New Word':'Next →'}</button></div><div class="message" id="msg">${state.status==='playing'?'You have 6 guesses!':''}</div><div class="board">${rows}</div><div class="keyboard">${keyboard()}</div></section>`);document.querySelector('#back').onclick=()=>state.custom?home():picker(state.theme);document.querySelector('#new').onclick=()=>state.custom?customSetup():start(state.theme,(state.index+1)%30);document.querySelectorAll('[data-key]').forEach(k=>k.onclick=()=>press(k.dataset.key));}
 function keyboard(){return ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].map((row,i)=>`<div class="keyrow">${i===2?`<button class="key wide" data-key="ENTER">ENTER</button>`:''}${[...row].map(c=>`<button class="key ${state.key[c]||''}" data-key="${c}">${c}</button>`).join('')}${i===2?`<button class="key wide" data-key="BACK">⌫</button>`:''}</div>`).join('')}

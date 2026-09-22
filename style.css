@@ -118,24 +118,16 @@ button{touch-action:manipulation}
 .pill[data-active-theme="Summer"]{background:#f7e3a7!important}
 
 
-/* ===== Selected-theme color follows the user through the themed activity ===== */
-body[data-active-theme] .game-picker button,
-body[data-active-theme] .pill,
-body[data-active-theme] .action {
+/* Selected theme follows into the actual Wordle game. */
+body[data-game-theme] .action,
+body[data-game-theme] .pill,
+body[data-game-theme] .key:not(.correct):not(.present):not(.absent) {
   background: var(--active-theme-color) !important;
   color:#4d4237 !important;
 }
-
-/* Keyboard starts in the theme color too; Wordle feedback still overrides it. */
-body[data-active-theme] .key:not(.correct):not(.present):not(.absent) {
-  background: var(--active-theme-color) !important;
-  color:#4d4237 !important;
-}
-
-/* Preserve standard Wordle result colors after a letter is used. */
-body[data-active-theme] .key.correct,
-body[data-active-theme] .tile.correct {background:#79a98c !important;color:#fff !important;}
-body[data-active-theme] .key.present,
-body[data-active-theme] .tile.present {background:#e4bf59 !important;color:#fff !important;}
-body[data-active-theme] .key.absent,
-body[data-active-theme] .tile.absent {background:#9ca7a1 !important;color:#fff !important;}
+body[data-game-theme] .key.correct,
+body[data-game-theme] .tile.correct {background:#79a98c !important;color:#fff !important;}
+body[data-game-theme] .key.present,
+body[data-game-theme] .tile.present {background:#e4bf59 !important;color:#fff !important;}
+body[data-game-theme] .key.absent,
+body[data-game-theme] .tile.absent {background:#9ca7a1 !important;color:#fff !important;}
