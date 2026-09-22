@@ -22,27 +22,18 @@ const VALID_WORDS=new Set([...Object.values(THEMES).flatMap(t=>t.words.map(clean
 ].map(clean));
 
 let FULL_DICTIONARY_READY=false;
-const DICTIONARY_URL="https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt";
 
+/* Local dictionary: bundled with the site, so no external dictionary website is needed. */
 async function loadFullDictionary(){
   try{
-    const cached=localStorage.getItem("hugGrowDictionaryV1");
-    if(cached){
-      cached.split("\n").forEach(w=>{ if(w) VALID_WORDS.add(w); });
-      FULL_DICTIONARY_READY=true;
-      return;
-    }
-  }catch(e){}
-  try{
-    const r=await fetch(DICTIONARY_URL,{cache:"force-cache"});
+    const r=await fetch("dictionary.txt?v=1",{cache:"force-cache"});
     if(!r.ok) throw new Error("dictionary");
     const text=await r.text();
-    const words=text.split(/\r?\n/).map(clean).filter(w=>w.length>=2 && w.length<=12);
-    words.forEach(w=>VALID_WORDS.add(w));
+    text.split(/\r?\n/).forEach(w=>{
+      w=clean(w);
+      if(w) VALID_WORDS.add(w);
+    });
     FULL_DICTIONARY_READY=true;
-    // Cache only a practical 2–12 letter subset. If storage is too small, the
-    // browser HTTP cache still avoids unnecessary repeat downloads.
-    try{ localStorage.setItem("hugGrowDictionaryV1",words.join("\n")); }catch(e){}
   }catch(e){
     FULL_DICTIONARY_READY=false;
   }
@@ -52,23 +43,35 @@ loadFullDictionary();
 function validGuess(word){
   word=clean(word);
   if(VALID_WORDS.has(word)) return true;
-  // Friendly plural / third-person singular support.
-  if(word.endsWith("S") && word.length>3){
-    const base=word.slice(0,-1);
-    if(VALID_WORDS.has(base)) return true;
-    if(word.endsWith("ES") && VALID_WORDS.has(word.slice(0,-2))) return true;
-    if(word.endsWith("IES") && VALID_WORDS.has(word.slice(0,-3)+"Y")) return true;
+
+  const candidates=[];
+  if(word.endsWith("S") && word.length>3) candidates.push(word.slice(0,-1));
+  if(word.endsWith("ES") && word.length>4) candidates.push(word.slice(0,-2));
+  if(word.endsWith("IES") && word.length>4) candidates.push(word.slice(0,-3)+"Y");
+
+  if(word.endsWith("ED") && word.length>4){
+    candidates.push(word.slice(0,-2));       // walked -> walk
+    candidates.push(word.slice(0,-1));       // baked -> bake
   }
-  return false;
+  if(word.endsWith("IED") && word.length>4) candidates.push(word.slice(0,-3)+"Y");
+
+  if(word.endsWith("ING") && word.length>5){
+    let b=word.slice(0,-3);
+    candidates.push(b);                      // walking -> walk
+    candidates.push(b+"E");                  // making -> make
+    if(b.length>2 && b.at(-1)===b.at(-2)) candidates.push(b.slice(0,-1)); // running -> run
+  }
+
+  return candidates.some(w=>VALID_WORDS.has(w));
 }
 
 const app=document.querySelector('#app'); let state={theme:null,index:0,answer:'',guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};
 function shell(inner){app.innerHTML=`<div class="wrap"><header class="brand"><img src="logo.png" alt="Hug & Grow Learning Studio logo" class="brand-logo"><div class="brand-copy"><h1>Wordle</h1><p>Hug and Grow Learning Studio</p></div></header>${inner}<div class="footer">© 2026 Hug & Grow Learning Studio. All rights reserved.</div></div>`}
 function home(){let buttons=Object.entries(THEMES).map(([n,t])=>`<button class="theme" data-theme="${n}"><div class="decor">${t.icon}</div><span>${n}</span></button>`).join('');shell(`<section class="card home-card"><h2>Choose a Theme</h2><p class="hint">Each theme includes 30 games. Word length changes automatically.</p><div class="themes">${buttons}<button class="theme" id="custom"><div class="decor">✍️✨</div><span>Customize</span></button></div><div class="play-grow">Play • Learn • Grow 💗</div></section>`);document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>picker(b.dataset.theme));document.querySelector('#custom').onclick=customSetup}
-function picker(theme){const t=THEMES[theme];shell(`<section class="card"><div class="top"><button class="pill" id="back">← Themes</button><h2>${t.icon} ${theme}</h2></div><p>Choose a game:</p><div class="game-picker">${t.words.map((_,i)=>`<button data-i="${i}">${i+1}</button>`).join('')}</div></section>`);document.querySelector('#back').onclick=home;document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>start(theme,+b.dataset.i))}
+function picker(theme){const t=THEMES[theme];shell(`<section class="card theme-page" data-active-theme="${name}"><div class="top"><button class="pill" id="back">← Themes</button><h2>${t.icon} ${theme}</h2></div><p>Choose a game:</p><div class="game-picker">${t.words.map((_,i)=>`<button data-i="${i}">${i+1}</button>`).join('')}</div></section>`);document.querySelector('#back').onclick=home;document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>start(theme,+b.dataset.i))}
 function start(theme,index){state={theme,index,answer:clean(THEMES[theme].words[index]),guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};renderGame()}
 function customSetup(){shell(`<section class="card modal"><div class="top"><button class="pill" id="back">← Themes</button><h2>✍️ Teacher Customize</h2></div><p>Type the secret answer. Letters only; spaces and punctuation are ignored during play.</p><input class="field" id="answer" maxlength="12" placeholder="Secret word" autocomplete="off"><p class="hint">Recommended: 3–12 letters. After you press Start, the word will disappear.</p><button class="action" id="go">Start Student Game</button></section>`);document.querySelector('#back').onclick=home;document.querySelector('#go').onclick=()=>{let a=clean(document.querySelector('#answer').value);if(a.length<2)return alert('Please enter at least 2 letters.');state={theme:'Customize',index:0,answer:a,guess:'',row:0,max:6,board:[],status:'playing',custom:true,key:{}};renderGame()}}
-function renderGame(){const len=state.answer.length;let rows='';for(let r=0;r<state.max;r++){let chars=state.board[r]?.letters||(r===state.row?state.guess:'');let res=state.board[r]?.result||[];rows+=`<div class="row" style="grid-template-columns:repeat(${len},minmax(0,58px))">${Array.from({length:len},(_,i)=>`<div class="tile ${res[i]||''}">${chars[i]||''}</div>`).join('')}</div>`}let title=state.custom?'✍️ Custom Wordle':`${THEMES[state.theme].icon} ${state.theme}`;let progress=state.custom?'Teacher-created game':`Game ${state.index+1} of 30`;shell(`<section class="card"><div class="top"><button class="pill" id="back">← ${state.custom?'Themes':'Games'}</button><div><strong>${title}</strong><div class="hint">${progress} • ${len} letters</div></div><button class="pill" id="new">${state.custom?'New Word':'Next →'}</button></div><div class="message" id="msg">${state.status==='playing'?'You have 6 guesses!':''}</div><div class="board">${rows}</div><div class="keyboard">${keyboard()}</div></section>`);document.querySelector('#back').onclick=()=>state.custom?home():picker(state.theme);document.querySelector('#new').onclick=()=>state.custom?customSetup():start(state.theme,(state.index+1)%30);document.querySelectorAll('[data-key]').forEach(k=>k.onclick=()=>press(k.dataset.key));}
+function renderGame(){const len=state.answer.length;let rows='';for(let r=0;r<state.max;r++){let chars=state.board[r]?.letters||(r===state.row?state.guess:'');let res=state.board[r]?.result||[];rows+=`<div class="row" style="grid-template-columns:repeat(${len},minmax(0,58px))">${Array.from({length:len},(_,i)=>`<div class="tile ${res[i]||''}">${chars[i]||''}</div>`).join('')}</div>`}let title=state.custom?'✍️ Custom Wordle':`${THEMES[state.theme].icon} ${state.theme}`;let progress=state.custom?'Teacher-created game':`Game ${state.index+1} of 30`;shell(`<section class="card theme-page" data-active-theme="${name}"><div class="top"><button class="pill" id="back">← ${state.custom?'Themes':'Games'}</button><div><strong>${title}</strong><div class="hint">${progress} • ${len} letters</div></div><button class="pill" id="new">${state.custom?'New Word':'Next →'}</button></div><div class="message" id="msg">${state.status==='playing'?'You have 6 guesses!':''}</div><div class="board">${rows}</div><div class="keyboard">${keyboard()}</div></section>`);document.querySelector('#back').onclick=()=>state.custom?home():picker(state.theme);document.querySelector('#new').onclick=()=>state.custom?customSetup():start(state.theme,(state.index+1)%30);document.querySelectorAll('[data-key]').forEach(k=>k.onclick=()=>press(k.dataset.key));}
 function keyboard(){return ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].map((row,i)=>`<div class="keyrow">${i===2?`<button class="key wide" data-key="ENTER">ENTER</button>`:''}${[...row].map(c=>`<button class="key ${state.key[c]||''}" data-key="${c}">${c}</button>`).join('')}${i===2?`<button class="key wide" data-key="BACK">⌫</button>`:''}</div>`).join('')}
 function press(k){if(state.status!=='playing')return;if(k==='BACK')state.guess=state.guess.slice(0,-1);else if(k==='ENTER')submit();else if(state.guess.length<state.answer.length)state.guess+=k;renderGame()}
 function submit(){if(state.guess.length!==state.answer.length){flash(`Enter ${state.answer.length} letters.`);return}if(!validGuess(state.guess) && state.guess!==state.answer){flash('Not in the word list. Try another word.');return}let a=[...state.answer],g=[...state.guess],result=Array(a.length).fill('absent'),counts={};a.forEach((c,i)=>{if(g[i]===c)result[i]='correct';else counts[c]=(counts[c]||0)+1});g.forEach((c,i)=>{if(result[i]==='correct')return;if(counts[c]>0){result[i]='present';counts[c]--}});state.board.push({letters:state.guess,result});const rank={absent:1,present:2,correct:3};g.forEach((c,i)=>{if(!state.key[c]||rank[result[i]]>rank[state.key[c]])state.key[c]=result[i]});state.row++;let win=state.guess===state.answer;state.guess='';if(win){state.status='won';celebrate();}else if(state.row>=state.max)state.status='lost';if(state.status!=='playing'){setTimeout(()=>{const m=document.querySelector('#msg');if(m)m.textContent=win?'🎉 You got it! Great growing!':`Nice try! The word was ${state.answer}.`;},0)}}

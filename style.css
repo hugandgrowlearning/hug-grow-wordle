@@ -89,3 +89,30 @@ button{touch-action:manipulation}
  .theme{font-size:1.12rem;padding:13px 6px}.theme .decor{font-size:1.8rem}.footer{text-align:center}
  .key{padding:12px 2px;font-size:.78rem}
 }
+
+
+/* ===== Match game-number buttons to the selected theme ===== */
+.game-picker button[data-active-theme="Back to School"]{background:#f7dfa0!important}
+.game-picker button[data-active-theme="Fall"]{background:#efd0aa!important}
+.game-picker button[data-active-theme="Halloween"]{background:#f1bd93!important}
+.game-picker button[data-active-theme="Thanksgiving"]{background:#e5d2b8!important}
+.game-picker button[data-active-theme="Christmas"]{background:#d5eadc!important}
+.game-picker button[data-active-theme="Winter"]{background:#cce8f5!important}
+.game-picker button[data-active-theme="Valentine"]{background:#f5d2d6!important}
+.game-picker button[data-active-theme="St. Patrick"]{background:#d6ebc6!important}
+.game-picker button[data-active-theme="Earth Day"]{background:#cdebea!important}
+.game-picker button[data-active-theme="Spring"]{background:#dceecb!important}
+.game-picker button[data-active-theme="Summer"]{background:#f7e3a7!important}
+
+/* Match the Themes/back button too, while keeping it slightly softer */
+.pill[data-active-theme="Back to School"]{background:#f7dfa0!important}
+.pill[data-active-theme="Fall"]{background:#efd0aa!important}
+.pill[data-active-theme="Halloween"]{background:#f1bd93!important}
+.pill[data-active-theme="Thanksgiving"]{background:#e5d2b8!important}
+.pill[data-active-theme="Christmas"]{background:#d5eadc!important}
+.pill[data-active-theme="Winter"]{background:#cce8f5!important}
+.pill[data-active-theme="Valentine"]{background:#f5d2d6!important}
+.pill[data-active-theme="St. Patrick"]{background:#d6ebc6!important}
+.pill[data-active-theme="Earth Day"]{background:#cdebea!important}
+.pill[data-active-theme="Spring"]{background:#dceecb!important}
+.pill[data-active-theme="Summer"]{background:#f7e3a7!important}

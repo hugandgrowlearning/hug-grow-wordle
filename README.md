@@ -20,3 +20,10 @@ This version loads the `dwyl/english-words` alphabetic English word list for muc
 
 ## Remembering access
 After the correct password is entered, the site stores a 30-day first-party cookie plus a localStorage fallback on that browser/device, so returning users normally do not need to enter the password again.
+
+
+## Offline dictionary
+`dictionary.txt` is now bundled directly with the activity (117,227 alphabetic entries).
+The game no longer downloads its dictionary from another website while students are playing.
+It also has fallback handling for common `-s`, `-es`, `-ies`, `-ed`, `-ied`, and `-ing` forms.
+Upload `dictionary.txt` to GitHub along with the other site files.
