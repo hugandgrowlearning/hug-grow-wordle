@@ -4,55 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Hug & Grow Wordle</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
-  <div id="passwordGate" class="gate">
-    <form id="passwordForm" class="gate-card">
-      <img src="logo.png" alt="Hug & Grow Learning Studio logo" class="gate-logo">
-      <h1>Hug & Grow Wordle</h1>
-      <p>Enter your activity password to begin.</p>
-      <input id="passwordInput" type="password" placeholder="Password" autocomplete="off" autocapitalize="none" spellcheck="false">
-      <button type="submit" class="action">Enter</button>
-      <div id="passwordMessage" class="password-message"></div>
-    </form>
-  </div>
-
-  <main id="app" hidden></main>
+  <main id="app"></main>
   <canvas id="fireworks"></canvas>
-
-  <script>
-    (function () {
-      var PASSWORD = "HugGrowWordle2026!";
-      var gate = document.getElementById("passwordGate");
-      var app = document.getElementById("app");
-      var form = document.getElementById("passwordForm");
-      var input = document.getElementById("passwordInput");
-      var message = document.getElementById("passwordMessage");
-
-      function openActivity() {
-        gate.hidden = true;
-        app.hidden = false;
-      }
-
-      if (localStorage.getItem("hugGrowWordleUnlocked") === "yes") {
-        openActivity();
-      }
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        if (input.value === PASSWORD) {
-          localStorage.setItem("hugGrowWordleUnlocked", "yes");
-          message.textContent = "";
-          openActivity();
-        } else {
-          message.textContent = "That password does not match. Please try again.";
-          input.focus();
-          input.select();
-        }
-      });
-    })();
-  </script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
