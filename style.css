@@ -1,112 +1,91 @@
-:root{--cream:#f4efdF;--linen:#e8dfc8;--windham:#f2e2b8;--natural:#d8c9ad;--ink:#4c4438;--accent:#a77d61;--sage:#9b9b83;--sage2:#eee7d8;--peach:#e5b29a;--gold:#d7b96f;--gray:#aaa293;--white:#fffdf8;--shadow:0 8px 24px #5d503018}*{box-sizing:border-box}body{margin:0;font-family:"Trebuchet MS","Avenir Next",ui-rounded,system-ui,sans-serif;background:linear-gradient(180deg,#f3f1eb,var(--cream));color:var(--ink);min-height:100vh}.wrap{max-width:980px;margin:auto;padding:22px}.brand{display:flex;align-items:center;justify-content:center;gap:20px;text-align:left;margin:8px 0 24px;padding:10px 18px;background:#edf1eb;border-radius:22px}.brand-logo{width:112px;height:112px;object-fit:contain;border-radius:50%;box-shadow:var(--shadow)}.brand h1{margin:0;font-size:clamp(2rem,7vw,4rem);letter-spacing:-2px}.brand p{margin:.35rem 0;color:#65726b}.card{background:#ffffffd9;border:2px solid #fff;border-radius:26px;padding:20px;box-shadow:var(--shadow)}.themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.theme{border:0;border-radius:22px;padding:24px 12px;font:inherit;font-weight:800;font-size:1.05rem;color:var(--ink);background:var(--linen);cursor:pointer;box-shadow:var(--shadow);min-height:104px}.theme:hover{transform:translateY(-2px)}button{touch-action:manipulation}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.pill,.action{border:0;border-radius:999px;padding:11px 16px;font:inherit;font-weight:800;cursor:pointer}.pill{background:var(--linen);color:var(--ink)}.action{background:var(--sage);color:#fff}.board{display:grid;gap:7px;margin:22px auto;max-width:640px}.row{display:grid;gap:7px;justify-content:center}.tile{width:clamp(38px,10vw,58px);aspect-ratio:1;border:2px solid #cbd5cf;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:clamp(1.15rem,5vw,1.75rem);font-weight:900;text-transform:uppercase}.tile.correct{background:#79a98c;color:#fff;border-color:#79a98c}.tile.present{background:#e7c35d;color:#fff;border-color:#e7c35d}.tile.absent{background:#9ca7a1;color:#fff;border-color:#9ca7a1}.keyboard{display:grid;gap:7px;max-width:720px;margin:18px auto}.keyrow{display:flex;gap:5px;justify-content:center}.key{min-width:0;flex:1;max-width:55px;border:0;border-radius:9px;padding:14px 4px;background:#e5e9e6;color:var(--ink);font-weight:900;cursor:pointer}.key.wide{max-width:88px;font-size:.75rem}.key.correct{background:#79a98c;color:#fff}.key.present{background:#e7c35d;color:#fff}.key.absent{background:#9ca7a1;color:#fff}.message{text-align:center;min-height:30px;font-weight:800}.modal{max-width:560px;margin:28px auto}.field{width:100%;padding:15px;border:2px solid #cddbd2;border-radius:14px;font:inherit;font-size:1.15rem;text-transform:uppercase}.hint{font-size:.9rem;color:#718078}.footer{text-align:center;color:#829087;font-size:.85rem;margin:28px}.decor{font-size:1.8rem}.game-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:15px}.game-picker button{border:0;border-radius:10px;padding:9px;background:var(--linen);font-weight:800;color:var(--ink);cursor:pointer}@media(max-width:540px){.wrap{padding:12px}.card{padding:14px}.themes{grid-template-columns:repeat(2,1fr)}.theme{min-height:88px;padding:16px 8px}.tile{border-radius:7px}.key{padding:13px 2px;font-size:.8rem}.game-picker{grid-template-columns:repeat(5,1fr)}}
-
-.brand h1{font-family:"Trebuchet MS","Avenir Next",ui-rounded,sans-serif;font-weight:900;color:#344c43;text-shadow:1px 2px 0 #e4d7c4}.brand p{font-weight:700;color:#7b6354}.card{background:#fffdf8e8;border-color:#f7f1e5}.theme:nth-child(4n+1){background:#edf0e9}.theme:nth-child(4n+2){background:#eee7d8}.theme:nth-child(4n+3){background:#f2e2b8}.theme:nth-child(4n){background:#d8c9ad}.action{background:#7f927e}.pill{background:#e8dfc8}.footer{text-align:right;margin:24px 6px 8px;font-size:.78rem;color:#81786a}.gate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:linear-gradient(180deg,#edf1eb,#f4efdf)}.gate[hidden]{display:none}.gate-card{width:min(460px,100%);text-align:center;background:#fffdf8;border-radius:28px;padding:30px;box-shadow:var(--shadow);border:2px solid #eee3ce}.gate-logo{width:150px;height:150px;object-fit:contain;border-radius:50%;margin-bottom:8px}.gate-card h1{margin:5px 0;color:#344c43;font-size:2rem}.gate-card p{color:#7b6354}.gate-card input{width:100%;padding:14px 16px;border:2px solid #d8c9ad;border-radius:14px;font:inherit;margin:8px 0 12px;background:#fff}.password-message{min-height:24px;margin-top:10px;color:#9a584f;font-weight:700}#fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none}@media(max-width:540px){.brand{gap:10px;padding:8px}.brand-logo{width:76px;height:76px}.brand h1{font-size:1.8rem;letter-spacing:-1px}.brand p{font-size:.8rem}.footer{text-align:center}}
-
-
-/* ===== Hug & Grow visual refresh v4 ===== */
 @import url('https://fonts.googleapis.com/css2?family=Chewy&family=Patrick+Hand&display=swap');
 
 :root{
-  --cream: #f6f0df;
-  --cream-card: #fffdf7;
-  --ink: #3d5148;
-  --brown: #7d6555;
+  --cream:#f7f1e3;
+  --paper:#fffdf8;
+  --ink:#314d43;
+  --brown:#775a49;
+  --line:#eadcc4;
+  --shadow:0 12px 30px rgba(94,75,47,.12);
+  --green:#75977e;
 }
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f7f1e3;color:#4d4237}
+body,button,input{font-family:"Patrick Hand","Comic Sans MS",cursive}
+button{touch-action:manipulation}
+[hidden]{display:none!important}
 
-/* One continuous creamy background — no green header patch */
-html, body {
-  background: var(--cream) !important;
-  background-image: none !important;
-  min-height: 100%;
+/* Password page */
+.password-page{min-height:100vh;display:grid;place-items:center;padding:28px;background:#f7f1e3}
+.password-card{width:min(520px,94vw);background:var(--paper);border:1.5px solid #efe2ca;border-radius:30px;box-shadow:var(--shadow);padding:32px 38px 28px;text-align:center}
+.password-logo{width:175px;height:175px;object-fit:contain;border-radius:50%;display:block;margin:0 auto 8px}
+.password-card h1{font-family:"Chewy",sans-serif;font-size:clamp(3.5rem,10vw,5.6rem);font-weight:400;line-height:.95;color:var(--ink);margin:8px 0 0}
+.password-card h2{font-size:clamp(1.5rem,5vw,2rem);font-weight:400;color:var(--brown);margin:4px 0 26px}
+.password-card p{font-size:1.35rem;margin:0 0 16px;color:#59483c}
+.password-card input{width:100%;font-size:1.45rem;padding:14px 18px;border:3px solid #d8c09b;border-radius:18px;background:#fff;outline:none}
+.password-card input:focus{border-color:#a9b79e}
+.password-enter{display:block;margin:18px auto 0;border:0;border-radius:999px;background:var(--green);color:#fff;font-size:1.55rem;padding:11px 52px;cursor:pointer;box-shadow:0 5px 12px rgba(73,103,82,.16)}
+.password-message{min-height:25px;color:#a04f48;font-size:1.05rem;margin-top:8px}
+.small-steps{font-size:2rem;margin-top:13px;line-height:1}
+.small-steps span{display:inline-block;color:var(--brown);font-size:1.15rem;line-height:.95;margin-top:4px}
+
+/* App shell */
+.wrap{max-width:1040px;margin:0 auto;padding:20px 22px 28px}
+.brand{display:flex;align-items:center;justify-content:center;gap:22px;padding:6px 10px 22px;text-align:left}
+.brand-logo{width:125px;height:125px;object-fit:contain;border-radius:50%}
+.brand h1{font-family:"Chewy",sans-serif!important;font-size:clamp(3.7rem,8vw,6rem);font-weight:400!important;line-height:.88;color:var(--ink)!important;margin:0;letter-spacing:.2px!important;text-shadow:1px 2px 0 #e7dac6}
+.brand p{font-size:clamp(1.55rem,3.2vw,2.1rem);color:var(--brown)!important;margin:8px 0 0;font-weight:400!important;line-height:1}
+.card{background:var(--paper);border:1.5px solid #efe2ca;border-radius:30px;padding:25px 27px;box-shadow:var(--shadow)}
+.card h2{font-size:2.25rem;margin:0;color:#584536;font-weight:700}
+.hint{font-size:1.15rem;color:#557166;margin:5px 0 15px}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.theme{border:0;border-radius:20px;min-height:122px;padding:17px 10px 13px;color:#42382f;cursor:pointer;box-shadow:0 5px 13px rgba(93,74,43,.08);font-size:1.35rem;font-weight:700;transition:.15s transform,.15s filter}
+.theme:hover{transform:translateY(-2px);filter:brightness(1.02)}
+.theme .decor{font-size:2.25rem;line-height:1.2;margin-bottom:5px}
+.theme span{display:block}
+
+/* Theme palette in requested order */
+.theme[data-theme="Back to School"]{background:#f7dfa0}
+.theme[data-theme="Fall"]{background:#efd0aa}
+.theme[data-theme="Halloween"]{background:#f1bd93}
+.theme[data-theme="Thanksgiving"]{background:#e5d2b8}
+.theme[data-theme="Christmas"]{background:#d5eadc}
+.theme[data-theme="Winter"]{background:#cce8f5}
+.theme[data-theme="Valentine"]{background:#f5d2d6}
+.theme[data-theme="St. Patrick"]{background:#d6ebc6}
+.theme[data-theme="Earth Day"]{background:#cdebea}
+.theme[data-theme="Spring"]{background:#dceecb}
+.theme[data-theme="Summer"]{background:#f7e3a7}
+#custom{background:#e9dedb}
+.play-grow{text-align:right;color:var(--brown);font-size:1.25rem;margin:20px 5px 0}
+
+/* Game UI */
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.top strong{font-size:1.55rem}
+.pill,.action{border:0;border-radius:999px;padding:10px 17px;font:inherit;font-size:1.05rem;font-weight:700;cursor:pointer}
+.pill{background:#eee2ce;color:#514438}.action{background:var(--green);color:#fff}
+.game-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:15px}
+.game-picker button{border:0;border-radius:12px;padding:10px;background:#eee2ce;font:inherit;font-size:1.1rem;font-weight:700;color:#4d4237;cursor:pointer}
+.field{width:100%;padding:15px 17px;border:2px solid #d8c09b;border-radius:15px;font:inherit;font-size:1.3rem;text-transform:uppercase;background:#fff}
+.board{display:grid;gap:7px;margin:22px auto;max-width:650px}
+.row{display:grid;gap:7px;justify-content:center}
+.tile{width:clamp(38px,10vw,58px);aspect-ratio:1;border:2px solid #d6d2c7;border-radius:10px;background:#fff;display:grid;place-items:center;font-family:system-ui,sans-serif;font-size:clamp(1.15rem,5vw,1.75rem);font-weight:900;text-transform:uppercase}
+.tile.correct{background:#79a98c;color:#fff;border-color:#79a98c}.tile.present{background:#e4bf59;color:#fff;border-color:#e4bf59}.tile.absent{background:#9ca7a1;color:#fff;border-color:#9ca7a1}
+.keyboard{display:grid;gap:7px;max-width:720px;margin:18px auto}.keyrow{display:flex;gap:5px;justify-content:center}
+.key{min-width:0;flex:1;max-width:55px;border:0;border-radius:9px;padding:14px 4px;background:#e6e6df;color:#403a34;font-family:system-ui,sans-serif;font-weight:900;cursor:pointer}
+.key.wide{max-width:88px;font-size:.72rem}.key.correct{background:#79a98c;color:#fff}.key.present{background:#e4bf59;color:#fff}.key.absent{background:#9ca7a1;color:#fff}
+.message{text-align:center;min-height:30px;font-size:1.25rem;font-weight:700}.modal{max-width:600px;margin:20px auto}
+.footer{text-align:right;color:#81705f;font-size:1rem;margin:22px 7px 0}
+#fireworks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none}
+
+@media(max-width:720px){
+ .themes{grid-template-columns:repeat(2,1fr)}
+ .brand{gap:10px}.brand-logo{width:86px;height:86px}.brand h1{font-size:3.2rem}.brand p{font-size:1.25rem}
+ .card{padding:18px}.theme{min-height:105px}.game-picker{grid-template-columns:repeat(5,1fr)}
 }
-
-body, button, input {
-  font-family: "Patrick Hand", "Comic Sans MS", cursive;
-}
-
-/* Header blends into the page */
-.site-header, header, .hero, .brand, .topbar {
-  background: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-/* Main title: Chewy */
-.site-header h1, header h1, .hero h1, .brand h1, #app > h1 {
-  font-family: "Chewy", "Arial Rounded MT Bold", sans-serif !important;
-  color: var(--ink) !important;
-  font-weight: 400 !important;
-  letter-spacing: .5px;
-}
-
-/* Subtitle: Patrick Hand */
-.site-header p, header p, .hero p, .brand p,
-.subtitle, .tagline {
-  font-family: "Patrick Hand", "Comic Sans MS", cursive !important;
-  color: var(--brown) !important;
-  font-weight: 400 !important;
-}
-
-/* Cards retain the warm cream family */
-.panel, .card, .theme-panel, .game-panel {
-  background: var(--cream-card);
-}
-
-/* Harmonious, theme-specific pastel colors */
-.theme-card[data-theme="backToSchool"],
-.theme-card[data-theme="backtoschool"],
-[data-theme="backToSchool"].theme-button,
-[data-theme="backtoschool"].theme-button { background:#F3D7A2 !important; }
-
-.theme-card[data-theme="fall"],
-[data-theme="fall"].theme-button { background:#E8C49D !important; }
-
-.theme-card[data-theme="halloween"],
-[data-theme="halloween"].theme-button { background:#E9B889 !important; }
-
-.theme-card[data-theme="thanksgiving"],
-[data-theme="thanksgiving"].theme-button { background:#D9C19E !important; }
-
-.theme-card[data-theme="christmas"],
-[data-theme="christmas"].theme-button { background:#D5E3D3 !important; }
-
-.theme-card[data-theme="winter"],
-[data-theme="winter"].theme-button { background:#D7E8EE !important; }
-
-.theme-card[data-theme="valentine"],
-[data-theme="valentine"].theme-button { background:#F1D1D3 !important; }
-
-.theme-card[data-theme="stPatrick"],
-.theme-card[data-theme="stpatrick"],
-[data-theme="stPatrick"].theme-button,
-[data-theme="stpatrick"].theme-button { background:#D7E6C9 !important; }
-
-.theme-card[data-theme="spring"],
-[data-theme="spring"].theme-button { background:#DDE8C9 !important; }
-
-.theme-card[data-theme="summer"],
-[data-theme="summer"].theme-button { background:#F4DCA8 !important; }
-
-.theme-card[data-theme="customize"],
-[data-theme="customize"].theme-button { background:#E7D7C5 !important; }
-
-/* Fallback nth-child colors for the current generated theme buttons */
-.theme-grid > *:nth-child(1){background:#F3D7A2 !important;}
-.theme-grid > *:nth-child(2){background:#E8C49D !important;}
-.theme-grid > *:nth-child(3){background:#E9B889 !important;}
-.theme-grid > *:nth-child(4){background:#D9C19E !important;}
-.theme-grid > *:nth-child(5){background:#D5E3D3 !important;}
-.theme-grid > *:nth-child(6){background:#D7E8EE !important;}
-.theme-grid > *:nth-child(7){background:#F1D1D3 !important;}
-.theme-grid > *:nth-child(8){background:#D7E6C9 !important;}
-.theme-grid > *:nth-child(9){background:#DDE8C9 !important;}
-.theme-grid > *:nth-child(10){background:#F4DCA8 !important;}
-.theme-grid > *:nth-child(11){background:#E7D7C5 !important;}
-
-.theme-grid > * {
-  transition: transform .15s ease, filter .15s ease;
-}
-.theme-grid > *:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.025);
+@media(max-width:420px){
+ .password-card{padding:24px 18px}.password-logo{width:135px;height:135px}
+ .wrap{padding:12px}.brand-logo{width:70px;height:70px}.brand h1{font-size:2.6rem}.brand p{font-size:1rem}
+ .theme{font-size:1.12rem;padding:13px 6px}.theme .decor{font-size:1.8rem}.footer{text-align:center}
+ .key{padding:12px 2px;font-size:.78rem}
 }

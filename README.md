@@ -1,12 +1,15 @@
-# Hug & Grow Wordle
+# Wordle — Hug and Grow Learning Studio
 
-Seasonal, variable-length Wordle-style learning activity for GitHub Pages.
+GitHub Pages-ready educational Wordle activity.
+
+## Password
+`HugGrowWordle2026!`
 
 ## Files
-Upload all of these to the repository root: `index.html`, `style.css`, `script.js`, and `logo.png`.
+Upload all files in this folder to the root of the same GitHub repository:
+- index.html
+- style.css
+- script.js
+- logo.png
 
-Password: `HugGrowWordle2026!`
-
-The password is remembered in the browser with localStorage. Because this is a static GitHub Pages site, the password is a lightweight classroom access gate and is visible to someone who inspects the source code.
-
-Correct answers trigger a celebration sound and fireworks. Guesses are checked against the included offline word list.
+The activity includes 11 themed sets with 30 games each, a teacher Customize mode, dictionary validation, on-screen keyboard feedback, celebration sound, and fireworks.

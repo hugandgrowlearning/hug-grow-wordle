@@ -3,12 +3,54 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Hug & Grow Wordle</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <title>Wordle | Hug and Grow Learning Studio</title>
+  <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
-  <main id="app"></main>
+  <section id="passwordGate" class="password-page">
+    <form id="passwordForm" class="password-card">
+      <img src="logo.png" alt="Hug & Grow Learning Studio logo" class="password-logo">
+      <h1>Wordle</h1>
+      <h2>Hug and Grow Learning Studio</h2>
+      <p>Enter the activity password to begin.</p>
+      <input id="passwordInput" type="password" placeholder="Password"
+             autocomplete="off" autocapitalize="none" spellcheck="false">
+      <button type="submit" class="password-enter">Enter</button>
+      <div id="passwordMessage" class="password-message" aria-live="polite"></div>
+      <div class="small-steps">🌱 💗<br><span>Small Steps<br>Bright Futures</span></div>
+    </form>
+  </section>
+
+  <main id="app" hidden></main>
   <canvas id="fireworks"></canvas>
-  <script src="script.js?v=5"></script>
+
+  <script>
+    (function () {
+      const PASSWORD = "HugGrowWordle2026!";
+      const gate = document.getElementById("passwordGate");
+      const app = document.getElementById("app");
+      const form = document.getElementById("passwordForm");
+      const input = document.getElementById("passwordInput");
+      const message = document.getElementById("passwordMessage");
+
+      function unlock() {
+        gate.style.display = "none";
+        app.hidden = false;
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (input.value === PASSWORD) {
+          message.textContent = "";
+          unlock();
+        } else {
+          message.textContent = "That password does not match. Please try again.";
+          input.focus();
+          input.select();
+        }
+      });
+    })();
+  </script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
