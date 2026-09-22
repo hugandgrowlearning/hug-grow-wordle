@@ -29,13 +29,6 @@ function submit(){if(state.guess.length!==state.answer.length){flash(`Enter ${st
 function flash(t){setTimeout(()=>{let m=document.querySelector('#msg');if(m)m.textContent=t},0)}
 window.addEventListener('keydown',e=>{if(!state.answer||!document.querySelector('.board'))return;if(e.key==='Enter')press('ENTER');else if(e.key==='Backspace')press('BACK');else if(/^[a-zA-Z]$/.test(e.key))press(e.key.toUpperCase())});home();
 
-// Password gate. This is a lightweight client-side classroom gate, not secure DRM.
-const PASSWORD='HugGrowWordle2026!';
-function unlock(){const input=document.querySelector('#passwordInput');const msg=document.querySelector('#passwordMessage');if(input.value===PASSWORD){localStorage.setItem('hugGrowWordleUnlocked','yes');document.querySelector('#passwordGate').hidden=true;app.hidden=false;}else{msg.textContent='That password does not match. Please try again.';input.select();}}
-document.querySelector('#passwordButton').addEventListener('click',unlock);
-document.querySelector('#passwordInput').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
-if(localStorage.getItem('hugGrowWordleUnlocked')==='yes'){document.querySelector('#passwordGate').hidden=true;app.hidden=false;}
-
 let audioCtx;
 function celebrationSound(){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const now=audioCtx.currentTime;[523.25,659.25,783.99,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+i*.11);g.gain.exponentialRampToValueAtTime(.16,now+i*.11+.02);g.gain.exponentialRampToValueAtTime(.0001,now+i*.11+.28);o.connect(g);g.connect(audioCtx.destination);o.start(now+i*.11);o.stop(now+i*.11+.3);});}catch(e){}}
 function celebrate(){celebrationSound();const c=document.querySelector('#fireworks'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;c.style.display='block';const particles=[];for(let b=0;b<7;b++){const cx=c.width*(.12+Math.random()*.76),cy=c.height*(.12+Math.random()*.45);for(let i=0;i<38;i++){const a=Math.PI*2*i/38,s=1.5+Math.random()*4;particles.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:70+Math.random()*30,h:(b*52+i*7)%360});}}let frame=0;(function draw(){x.clearRect(0,0,c.width,c.height);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.life--;x.globalAlpha=Math.max(0,p.life/90);x.fillStyle=`hsl(${p.h} 70% 60%)`;x.beginPath();x.arc(p.x,p.y,3,0,Math.PI*2);x.fill();});x.globalAlpha=1;if(frame++<105)requestAnimationFrame(draw);else c.style.display='none';})();}
