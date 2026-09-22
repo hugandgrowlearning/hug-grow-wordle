@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Wordle | Hug and Grow Learning Studio</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
   <section id="passwordGate" class="password-page">
@@ -33,15 +33,34 @@
       const input = document.getElementById("passwordInput");
       const message = document.getElementById("passwordMessage");
 
+      function hasAccessCookie() {
+        return document.cookie.split(";").some(function (item) {
+          return item.trim() === "hugGrowWordleAccess=1";
+        });
+      }
+
+      function rememberAccess() {
+        // 30 days. SameSite=Lax is appropriate for this first-party activity.
+        document.cookie = "hugGrowWordleAccess=1; Max-Age=2592000; Path=/; SameSite=Lax";
+        try { localStorage.setItem("hugGrowWordleAccess", "1"); } catch (e) {}
+      }
+
       function unlock() {
         gate.style.display = "none";
         app.hidden = false;
       }
 
+      // Returning users on the same browser/device do not need to enter the
+      // password again while the cookie/local storage remains available.
+      let remembered = hasAccessCookie();
+      try { remembered = remembered || localStorage.getItem("hugGrowWordleAccess") === "1"; } catch (e) {}
+      if (remembered) unlock();
+
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         if (input.value === PASSWORD) {
           message.textContent = "";
+          rememberAccess();
           unlock();
         } else {
           message.textContent = "That password does not match. Please try again.";
@@ -51,6 +70,6 @@
       });
     })();
   </script>
-  <script src="script.js?v=10"></script>
+  <script src="script.js?v=11"></script>
 </body>
 </html>
