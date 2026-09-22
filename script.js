@@ -68,6 +68,35 @@ function validGuess(word){
 const app=document.querySelector('#app'); let state={theme:null,index:0,answer:'',guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};
 function shell(inner){app.innerHTML=`<div class="wrap"><header class="brand"><img src="logo.png" alt="Hug & Grow Learning Studio logo" class="brand-logo"><div class="brand-copy"><h1>Wordle</h1><p>Hug and Grow Learning Studio</p></div></header>${inner}<div class="footer">© 2026 Hug & Grow Learning Studio. All rights reserved.</div></div>`}
 function home(){let buttons=Object.entries(THEMES).map(([n,t])=>`<button class="theme" data-theme="${n}"><div class="decor">${t.icon}</div><span>${n}</span></button>`).join('');shell(`<section class="card home-card"><h2>Choose a Theme</h2><p class="hint">Each theme includes 30 games. Word length changes automatically.</p><div class="themes">${buttons}<button class="theme" id="custom"><div class="decor">✍️✨</div><span>Customize</span></button></div><div class="play-grow">Play • Learn • Grow 💗</div></section>`);document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>picker(b.dataset.theme));document.querySelector('#custom').onclick=customSetup}
+
+const THEME_COLORS={
+  "Back to School":"#f7dfa0",
+  "Fall":"#efd0aa",
+  "Halloween":"#f1bd93",
+  "Thanksgiving":"#e5d2b8",
+  "Christmas":"#d5eadc",
+  "Winter":"#cce8f5",
+  "Valentine":"#f5d2d6",
+  "St. Patrick":"#d6ebc6",
+  "Earth Day":"#cdebea",
+  "Spring":"#dceecb",
+  "Summer":"#f7e3a7"
+};
+function applyThemeColor(name){
+  const color=THEME_COLORS[name];
+  if(!color) return;
+  requestAnimationFrame(()=>{
+    document.documentElement.style.setProperty("--active-theme-color",color);
+    document.body.dataset.activeTheme=name;
+    document.querySelectorAll(".game-picker button,.pill,.action,.key").forEach(el=>{
+      if(!el.classList.contains("correct")&&!el.classList.contains("present")&&!el.classList.contains("absent")){
+        el.style.backgroundColor=color;
+        el.style.color="#4d4237";
+      }
+    });
+  });
+}
+
 function picker(theme){const t=THEMES[theme];shell(`<section class="card theme-page" data-active-theme="${name}"><div class="top"><button class="pill" id="back">← Themes</button><h2>${t.icon} ${theme}</h2></div><p>Choose a game:</p><div class="game-picker">${t.words.map((_,i)=>`<button data-i="${i}">${i+1}</button>`).join('')}</div></section>`);document.querySelector('#back').onclick=home;document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>start(theme,+b.dataset.i))}
 function start(theme,index){state={theme,index,answer:clean(THEMES[theme].words[index]),guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};renderGame()}
 function customSetup(){shell(`<section class="card modal"><div class="top"><button class="pill" id="back">← Themes</button><h2>✍️ Teacher Customize</h2></div><p>Type the secret answer. Letters only; spaces and punctuation are ignored during play.</p><input class="field" id="answer" maxlength="12" placeholder="Secret word" autocomplete="off"><p class="hint">Recommended: 3–12 letters. After you press Start, the word will disappear.</p><button class="action" id="go">Start Student Game</button></section>`);document.querySelector('#back').onclick=home;document.querySelector('#go').onclick=()=>{let a=clean(document.querySelector('#answer').value);if(a.length<2)return alert('Please enter at least 2 letters.');state={theme:'Customize',index:0,answer:a,guess:'',row:0,max:6,board:[],status:'playing',custom:true,key:{}};renderGame()}}
