@@ -67,7 +67,7 @@ function validGuess(word){
 
 const app=document.querySelector('#app'); let state={theme:null,index:0,answer:'',guess:'',row:0,max:6,board:[],status:'playing',custom:false,key:{}};
 function shell(inner){app.innerHTML=`<div class="wrap"><header class="brand"><img src="logo.png" alt="Hug & Grow Learning Studio logo" class="brand-logo"><div class="brand-copy"><h1>Wordle</h1><p>Hug and Grow Learning Studio</p></div></header>${inner}<div class="footer">© 2026 Hug & Grow Learning Studio. All rights reserved.</div></div>`}
-function home(){let buttons=Object.entries(THEMES).map(([n,t])=>`<button class="theme" data-theme="${n}"><div class="decor">${t.icon}</div><span>${n}</span></button>`).join('');shell(`<section class="card home-card"><h2>Choose a Theme</h2><p class="hint">Each theme includes 30 games. Word length changes automatically.</p><div class="themes">${buttons}<button class="theme" id="custom"><div class="decor">✍️✨</div><span>Customize</span></button></div><div class="play-grow">Play • Learn • Grow 💗</div></section>`);document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>picker(b.dataset.theme));document.querySelector('#custom').onclick=customSetup}
+function home(){document.body.classList.remove("theme-selected");let buttons=Object.entries(THEMES).map(([n,t])=>`<button class="theme" data-theme="${n}"><div class="decor">${t.icon}</div><span>${n}</span></button>`).join('');shell(`<section class="card home-card"><h2>Choose a Theme</h2><p class="hint">Each theme includes 30 games. Word length changes automatically.</p><div class="themes">${buttons}<button class="theme" id="custom"><div class="decor">✍️✨</div><span>Customize</span></button></div><div class="play-grow">Play • Learn • Grow 💗</div></section>`);document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>picker(b.dataset.theme));document.querySelector('#custom').onclick=customSetup}
 
 const THEME_COLORS={
   "Back to School":"#f7dfa0",
@@ -85,8 +85,12 @@ const THEME_COLORS={
 function themeColor(name){ return THEME_COLORS[name] || "#eee2ce"; }
 
 function picker(theme){
+  const selectedColor=themeColor(theme);
+  document.documentElement.style.setProperty("--selected-theme-color",selectedColor);
+  document.body.classList.add("theme-selected");
+
   const t=THEMES[theme];
-  const c=themeColor(theme);
+  const c=selectedColor;
   shell(`<section class="card">
     <div class="top">
       <button class="pill" id="back" style="background:${c}">← Themes</button>

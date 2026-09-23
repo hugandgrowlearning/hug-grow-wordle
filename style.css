@@ -131,3 +131,27 @@ body[data-game-theme] .key.present,
 body[data-game-theme] .tile.present {background:#e4bf59 !important;color:#fff !important;}
 body[data-game-theme] .key.absent,
 body[data-game-theme] .tile.absent {background:#9ca7a1 !important;color:#fff !important;}
+
+
+/* ===== Definitive selected-theme color fix =====
+   This rule comes last and uses the same CSS variable for every navigation
+   and game-selection control, preventing older .pill rules from winning. */
+body.theme-selected .game-picker button,
+body.theme-selected .pill,
+body.theme-selected .action {
+  background-color: var(--selected-theme-color) !important;
+  background-image: none !important;
+  color: #4d4237 !important;
+}
+
+/* Keep unused keyboard keys coordinated, but preserve Wordle feedback colors. */
+body.theme-selected .key:not(.correct):not(.present):not(.absent) {
+  background-color: var(--selected-theme-color) !important;
+  color:#4d4237 !important;
+}
+body.theme-selected .key.correct,
+body.theme-selected .tile.correct {background:#79a98c !important;color:#fff !important;}
+body.theme-selected .key.present,
+body.theme-selected .tile.present {background:#e4bf59 !important;color:#fff !important;}
+body.theme-selected .key.absent,
+body.theme-selected .tile.absent {background:#9ca7a1 !important;color:#fff !important;}
